@@ -1,13 +1,14 @@
 import argparse
 
 
-def gendiff_h():
+def parsing():
     parser = argparse.ArgumentParser(
+        prog = 'gendiff',
         description='Compares two configuration files and shows a difference.')
     # Positional arguments
-    parser.add_argument('first_file')
-    parser.add_argument('second_file')
+    parser.add_argument('first_file', type=str)
+    parser.add_argument('second_file', type=str)
     # Optional arguments
     parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
-    return args
+    return args.first_file, args.second_file
