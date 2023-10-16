@@ -13,11 +13,24 @@ package-install:
 package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
 
-make lint:
+lint:
 	poetry run flake8 gendiff
+
+test:
+	poetry run pytest
+
+selfcheck:
+	poetry check
+
+check: selfcheck test lint
+
+build: check
+	poetry build
 
 gendiff:
 	poetry run gendiff
 
 test-coverage:
 	poetry run pytest --cov=gendiff --cov-report xml tests/
+
+.PHONY: install test lint selfcheck check build
