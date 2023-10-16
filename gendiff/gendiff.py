@@ -26,19 +26,19 @@ def stringify(value, replacer=' ', space_count=1):
 
 
 def get_diff(data_1, data_2):
-  result = {}
-  for key, value in (data_1 | data_2).items():
-    if key in data_1 and key in data_2:
-      if data_1.get(key) == data_2.get(key):
-        result[f"  {key}"] = data_1.get(key)
-      else:
-        result[f"- {key}"] = data_1.get(key)
-        result[f"+ {key}"] = data_2.get(key)
-    elif key in data_1 and key not in data_2:
-      result[f"- {key}"] = data_1.get(key)
-    elif key in data_2 and key not in data_1:
-      result[f"+ {key}"] = data_2.get(key)
-  return result
+    result = {}
+    for key, _ in (data_1 | data_2).items():
+        if key in data_1 and key in data_2:
+            if data_1.get(key) == data_2.get(key):
+                result[f"  {key}"] = data_1.get(key)
+            else:
+                result[f"- {key}"] = data_1.get(key)
+                result[f"+ {key}"] = data_2.get(key)
+        elif key in data_1 and key not in data_2:
+            result[f"- {key}"] = data_1.get(key)
+        elif key in data_2 and key not in data_1:
+            result[f"+ {key}"] = data_2.get(key)
+    return result
 
 
 def generate_diff(file1, file2):

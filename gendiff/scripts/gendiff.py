@@ -3,10 +3,9 @@ from gendiff import generate_diff
 from gendiff.cli import parsing
 
 
-
 def main():
 
-    print(parsing())
+    first_file, second_file = parsing()
     print(generate_diff('gendiff/file1.json', 'gendiff/file2.json'))
 
 
