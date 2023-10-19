@@ -1,4 +1,4 @@
-import json
+from gendiff.parsing import parsing_json, parsing_yaml
 import itertools
 
 
@@ -42,8 +42,10 @@ def get_diff(data_1, data_2):
 
 
 def generate_diff(file1, file2):
-    f1 = json.load(open(file1))
-    f2 = json.load(open(file2))
+    if not parsing_yaml(file1, file2):
+        f1, f2 = parsing_json(file1, file2)
+    else:
+        f1, f2 = parsing_yaml(file1, file2)
     data_1 = sort_keys(f1)
     data_2 = sort_keys(f2)
     result = get_diff(data_1, data_2)
