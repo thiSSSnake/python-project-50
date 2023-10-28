@@ -6,7 +6,7 @@ from gendiff.cli import parsing
 def main():
 
     first_file, second_file = parsing()
-    print(generate_diff('gendiff/file1.json', 'gendiff/file2.json'))
+    print(generate_diff(first_file, second_file))
 
 
 if __name__ == '__main__':
