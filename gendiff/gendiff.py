@@ -2,6 +2,7 @@ from gendiff.parsing import parsing_json, parsing_yaml
 from gendiff.tree import make_tree
 from gendiff.formatters.stylish import format
 from gendiff.formatters.plain import plain_format
+from gendiff.formatters.format_js import format_js
 
 
 def generate_diff(file1, file2, format_name='stylish'):
@@ -17,4 +18,7 @@ def generate_diff(file1, file2, format_name='stylish'):
         return result
     if format_name == 'plain':
         result = plain_format(diff)
+        return result
+    if format_name == 'json':
+        result = format_js(diff)
         return result

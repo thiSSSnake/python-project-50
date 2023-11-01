@@ -11,3 +11,5 @@
 [![asciicast](https://asciinema.org/a/0XwyzSi3n7E0myrWHh0bmItom.svg)](https://asciinema.org/a/0XwyzSi3n7E0myrWHh0bmItom)
 ## Сравнение файлов с форматом Plain
 [![asciicast](https://asciinema.org/a/cfN8jk2L8mN3806yaSVAxa78c.svg)](https://asciinema.org/a/cfN8jk2L8mN3806yaSVAxa78c)
+## Вывод в формате JSON
+[![asciicast](https://asciinema.org/a/dFtNf9gIfOnaPRK0Sm6S59MKM.svg)](https://asciinema.org/a/dFtNf9gIfOnaPRK0Sm6S59MKM)
