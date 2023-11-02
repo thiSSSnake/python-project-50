@@ -31,9 +31,9 @@ def formatter(node, depth=0):  # noqa: C901
 
     children = node.get('children')
     indent = get_indent(depth)
-    value = stringit(node.get('value'))
-    old_value = stringit(node.get('old_value'))
-    new_value = stringit(node.get('new_value'))
+    value = stringit(node.get('value'), depth)
+    old_value = stringit(node.get('old_value'), depth)
+    new_value = stringit(node.get('new_value'), depth)
     if node['type'] == 'root':
         lines = map(lambda child: formatter(child, depth + 1), children)
         result = '\n'.join(lines)

@@ -14,8 +14,8 @@ def get_files_json():
 def get_files_yaml():
     """Return YAML files."""
 
-    file_1 = 'tests/fixtures/files/nested_file1.yml'
-    file_2 = 'tests/fixtures/files/nested_file2.yml'
+    file_1 = 'tests/fixtures/files/nested_file1.yaml'
+    file_2 = 'tests/fixtures/files/nested_file2.yaml'
     return file_1, file_2
 
 
@@ -23,7 +23,7 @@ def get_files_yaml():
 def get_expected_res_stylish():
     """Return expected result for default format - stylish."""
 
-    file = 'tests/fixtures/stylish/expected_nested.txt'
+    file = 'tests/fixtures/stylish/expected_nested'
     return file
 
 @pytest.fixture
