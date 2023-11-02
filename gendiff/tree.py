@@ -1,11 +1,14 @@
 def gen_diff(data_1, data_2):
+    """"
+    Compiling an internal representation of differences
+    using a tree-like data structure.
+    """
+
     keys = data_1.keys() | data_2.keys()
     result = []
-
     for key in sorted(keys):
         value_1 = data_1.get(key)
         value_2 = data_2.get(key)
-
         if key not in data_1:
             result.append({
                 'key': key,
@@ -41,6 +44,8 @@ def gen_diff(data_1, data_2):
 
 
 def make_tree(data_1, data_2):
+    """Returning the finished data structure."""
+
     return {
         'type': 'root',
         'children': gen_diff(data_1, data_2)

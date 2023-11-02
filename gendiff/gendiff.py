@@ -6,6 +6,11 @@ from gendiff.formatters.format_js import format_js
 
 
 def generate_diff(file1, file2, format_name='stylish'):
+    """
+    Returning the difference
+    between two JSON/YML files in one of several formats.
+    """
+
     data_1 = parsing_json(file1)
     data_2 = parsing_json(file2)
     if not data_1:

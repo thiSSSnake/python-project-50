@@ -1,4 +1,10 @@
 def to_string(value):
+
+    """
+    The same as the 'stringit' function,
+    but instead of full nested data, [complex value] is returned.
+    """
+
     if isinstance(value, bool):
         return 'true' if value else 'false'
     if value is None:
@@ -11,6 +17,8 @@ def to_string(value):
 
 
 def formatter_plain(node, path=''):
+    """Return formatted data in Plain output."""
+
     children = node.get('children')
     value = to_string(node.get('value'))
     old_value = to_string(node.get('old_value'))

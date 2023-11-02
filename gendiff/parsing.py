@@ -16,6 +16,8 @@ def get_extension(file):
 
 
 def parsing_yaml(file):
+    """Getting a parsed YAML file."""
+
     file_path = get_path(file)
     extension = get_extension(file_path)
     if extension == '.yml' or extension == '.yaml':
@@ -27,6 +29,8 @@ def parsing_yaml(file):
 
 
 def parsing_json(file):
+    """Getting a parsed JSON file."""
+
     file_path = get_path(file)
     extension = get_extension(file_path)
     if extension == '.json':

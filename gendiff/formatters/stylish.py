@@ -6,6 +6,8 @@ def get_indent(depth):
 
 
 def stringit(value, depth=0):
+    """Turns value to string."""
+
     if isinstance(value, bool):
         return 'true' if value else 'false'
 
@@ -25,33 +27,29 @@ def stringit(value, depth=0):
 
 
 def formatter(node, depth=0):  # noqa: C901
+    """Return formatted data in the library's standart Stylish output."""
+
     children = node.get('children')
     indent = get_indent(depth)
     value = stringit(node.get('value'))
     old_value = stringit(node.get('old_value'))
     new_value = stringit(node.get('new_value'))
-
     if node['type'] == 'root':
         lines = map(lambda child: formatter(child, depth + 1), children)
         result = '\n'.join(lines)
         return f"{{\n{result}\n}}"
-
     if node['type'] == 'nested':
         lines = map(lambda child: formatter(child, depth + 1), children)
         result = '\n'.join(lines)
         return f"{indent}  {node['key']}: {{\n{result}\n {indent}}}"
-
     if node['type'] == 'added':
         return f'{indent}+ {node["key"]}: {value}'
-
     if node['type'] == 'changed':
         line1 = f'{indent}- {node["key"]}: {old_value}\n'
         line2 = f'{indent}+ {node["key"]}: {new_value}'
         return line1 + line2
-
     if node['type'] == 'deleted':
         return f'{indent}- {node["key"]}: {value}'
-
     if node['type'] == 'unchanged':
         return f'{indent}  {node["key"]}: {value}'
 
