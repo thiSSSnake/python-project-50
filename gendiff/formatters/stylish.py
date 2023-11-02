@@ -1,6 +1,3 @@
-import itertools
-
-
 def get_indent(depth):
     return ' ' * (depth * 4 - 2)
 
