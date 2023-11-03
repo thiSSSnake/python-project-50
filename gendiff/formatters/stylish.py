@@ -37,7 +37,7 @@ def formatter(node, depth=0):  # noqa: C901
     if node['type'] == 'nested':
         lines = map(lambda child: formatter(child, depth + 1), children)
         result = '\n'.join(lines)
-        return f"{indent}  {node['key']}: {{\n{result}\n {indent}}}"
+        return f"{indent}  {node['key']}: {{\n{result}\n  {indent}}}"
     if node['type'] == 'added':
         return f'{indent}+ {node["key"]}: {value}'
     if node['type'] == 'changed':
