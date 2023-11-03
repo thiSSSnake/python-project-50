@@ -26,6 +26,7 @@ def get_expected_res_stylish():
     file = 'tests/fixtures/stylish/expected_nested'
     return file
 
+
 @pytest.fixture
 def get_expected_res_plain():
     """Return expected result for plain format."""
