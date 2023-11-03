@@ -18,7 +18,7 @@ def stringit(value, depth=0):
         for key, val in value.items():
             lines.append(f'{current_indent}{key}: {stringit(val, depth + 1)}')
         result = '\n'.join(lines)
-        return f"{{\n{result}\n {indent}}}"
+        return f"{{\n{result}\n  {indent}}}"
     return value
 
 
