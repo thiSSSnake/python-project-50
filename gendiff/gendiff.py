@@ -32,11 +32,8 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
     data_2 = dict(get_file_data(file_path2))
     diff = make_tree(data_1, data_2)
     if format_name == 'stylish':
-        result = formatter(diff)
-        return result
+        return formatter(diff)
     if format_name == 'plain':
-        result = formatter_plain(diff)
-        return result
+        return formatter_plain(diff)
     if format_name == 'json':
-        result = format_js(diff)
-        return result
+        return format_js(diff)
