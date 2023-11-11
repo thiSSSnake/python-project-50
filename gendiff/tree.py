@@ -47,6 +47,5 @@ def make_tree(data_1, data_2):
     """Returning the finished data structure."""
 
     return {
-        'type': 'root',
         'children': gen_diff(data_1, data_2)
     }

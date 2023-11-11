@@ -1,28 +1,41 @@
-from gendiff.parsing import parsing_json, parsing_yaml
+import os
+from gendiff.parsing import parse_files
 from gendiff.tree import make_tree
-from gendiff.formatters.stylish import format
-from gendiff.formatters.plain import plain_format
+from gendiff.formatters.stylish import formatter
+from gendiff.formatters.plain import formatter_plain
 from gendiff.formatters.format_js import format_js
 
 
-def generate_diff(file1, file2, format_name='stylish'):
+def get_extension(file: str):
+    """Get extension of file path (string value)."""
+
+    f = file
+    _, extension = os.path.splitext(f)
+    return extension
+
+
+def get_file_data(file: str):
+    """Get file data."""
+
+    file_extension = get_extension(file)
+    file_data = parse_files(file, file_extension)
+    return file_data
+
+
+def generate_diff(file_path1, file_path2, format_name='stylish'):
     """
     Returning the difference
     between two JSON/YML files in one of several formats.
     """
 
-    data_1 = parsing_json(file1)
-    data_2 = parsing_json(file2)
-    if not data_1:
-        data_1 = parsing_yaml(file1)
-    if not data_2:
-        data_2 = parsing_yaml(file2)
+    data_1 = dict(get_file_data(file_path1))
+    data_2 = dict(get_file_data(file_path2))
     diff = make_tree(data_1, data_2)
     if format_name == 'stylish':
-        result = format(diff)
+        result = formatter(diff)
         return result
     if format_name == 'plain':
-        result = plain_format(diff)
+        result = formatter_plain(diff)
         return result
     if format_name == 'json':
         result = format_js(diff)

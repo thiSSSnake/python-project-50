@@ -1,7 +1,7 @@
 import argparse
 
 
-def parsing():  # noqa: E501
+def parsing_arguments():  # noqa: E501
     parser = argparse.ArgumentParser(
         prog='gendiff',
         description='Compares two configuration files and shows a difference.')

@@ -1,3 +1,6 @@
+NODE_TYPES = ('root', 'nested', 'added', 'deleted', 'changed', 'unchanged')
+
+
 def get_indent(depth):
     return ' ' * (depth * 4 - 2)
 
@@ -30,25 +33,21 @@ def formatter(node, depth=0):  # noqa: C901
     value = stringit(node.get('value'), depth)
     old_value = stringit(node.get('old_value'), depth)
     new_value = stringit(node.get('new_value'), depth)
-    if node['type'] == 'root':
-        lines = map(lambda child: formatter(child, depth + 1), children)
-        result = '\n'.join(lines)
-        return f"{{\n{result}\n}}"
-    if node['type'] == 'nested':
-        lines = map(lambda child: formatter(child, depth + 1), children)
-        result = '\n'.join(lines)
-        return f"{indent}  {node['key']}: {{\n{result}\n  {indent}}}"
-    if node['type'] == 'added':
-        return f'{indent}+ {node["key"]}: {value}'
-    if node['type'] == 'changed':
-        line1 = f'{indent}- {node["key"]}: {old_value}\n'
-        line2 = f'{indent}+ {node["key"]}: {new_value}'
-        return line1 + line2
-    if node['type'] == 'deleted':
-        return f'{indent}- {node["key"]}: {value}'
-    if node['type'] == 'unchanged':
-        return f'{indent}  {node["key"]}: {value}'
-
-
-def format(data):
-    return formatter(data)
+    result = ''
+    if 'type' in node and node['type'] not in NODE_TYPES:
+        raise ValueError('Invalid node type.')
+    if 'type' in node and node['type'] in NODE_TYPES:
+        if node['type'] == 'nested':
+            lines = map(lambda child: formatter(child, depth + 1), children)
+            result = '\n'.join(lines)
+            return f"{indent}  {node['key']}: {{\n{result}\n  {indent}}}"
+        if node['type'] == 'added':
+            return f'{indent}+ {node["key"]}: {value}'
+        if node['type'] == 'changed':
+            line1 = f'{indent}- {node["key"]}: {old_value}\n'
+            line2 = f'{indent}+ {node["key"]}: {new_value}'
+            return line1 + line2
+        if node['type'] == 'deleted':
+            return f'{indent}- {node["key"]}: {value}'
+        if node['type'] == 'unchanged':
+            return f'{indent}  {node["key"]}: {value}'
