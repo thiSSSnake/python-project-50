@@ -1,9 +1,7 @@
 import os
 from gendiff.parsing import parse_files
 from gendiff.tree import make_tree
-from gendiff.formatters.stylish import formatter
-from gendiff.formatters.plain import formatter_plain
-from gendiff.formatters.format_js import format_js
+from gendiff.formatters import formatting
 
 
 def get_extension(file: str):
@@ -30,10 +28,6 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
 
     data_1 = dict(get_file_data(file_path1))
     data_2 = dict(get_file_data(file_path2))
-    diff = make_tree(data_1, data_2)
-    if format_name == 'stylish':
-        return formatter(diff)
-    if format_name == 'plain':
-        return formatter_plain(diff)
-    if format_name == 'json':
-        return format_js(diff)
+    tree = make_tree(data_1, data_2)
+    diff = formatting(tree, format_name)
+    return diff

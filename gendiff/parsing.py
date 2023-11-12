@@ -9,5 +9,5 @@ def parse_files(file_data, extension):
         return yaml.safe_load(open(file_data))
     if extension == '.json':
         return json.load(open(file_data))
-    else:
-        raise ValueError(f"Unsupported file extension: {extension}")
+
+    raise ValueError(f"Unsupported file extension: {extension}")
