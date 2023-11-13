@@ -1,1 +1,1 @@
-NODE_TYPES = ('root', 'nested', 'added', 'deleted', 'changed', 'unchanged')
+NODE_TYPES = ('tree', 'added', 'deleted', 'changed', 'unchanged')

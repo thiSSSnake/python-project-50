@@ -24,7 +24,7 @@ def gen_diff(data_1, data_2):
         elif isinstance(value_1, dict) and isinstance(value_2, dict):
             result.append({
                 'key': key,
-                'type': 'nested',
+                'type': 'tree',
                 'children': gen_diff(value_1, value_2)
             })
         elif data_1[key] == data_2[key]:
@@ -47,6 +47,6 @@ def make_tree(data_1, data_2):
     """Returning the finished data structure."""
 
     return {
-        'type': 'root',
+        'type': 'tree',
         'children': gen_diff(data_1, data_2)
     }

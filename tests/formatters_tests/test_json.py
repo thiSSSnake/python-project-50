@@ -1,21 +1,20 @@
 import pytest
 from gendiff import generate_diff
+from correct_outputs import JSON
 
 
-@pytest.mark.parametrize('input1, input2, expected, format', [
+@pytest.mark.parametrize('input1, input2, expected', [
     (
         'tests/fixtures/nested_file1.json',
         'tests/fixtures/nested_file2.json',
-        'tests/fixtures/expected_json.txt',
-        'json'
+        JSON
     ),
     (
         'tests/fixtures/nested_file1.yaml',
         'tests/fixtures/nested_file2.yaml',
-        'tests/fixtures/expected_json.txt',
-        'json'
+        JSON
     )
 ])
-def test_json(input1, input2, expected, format):
-    diff = generate_diff(input1, input2, format)
-    assert print(diff) == print(expected)
+def test_json(input1, input2, expected):
+    diff = generate_diff(input1, input2, 'json')
+    assert diff == expected

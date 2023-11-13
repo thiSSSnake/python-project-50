@@ -27,22 +27,21 @@ def stringit(value, depth=0):
 
 def formatter(node, depth=0):  # noqa: C901
     """Return formatted data in the library's standart Stylish output."""
+
     children = node.get('children')
     indent = get_indent(depth)
     value = stringit(node.get('value'), depth)
     old_value = stringit(node.get('old_value'), depth)
     new_value = stringit(node.get('new_value'), depth)
-
     if node['type'] not in NODE_TYPES:
         raise ValueError(f"Invalid node type {node['type']}")
-    if node['type'] == 'root':
+    if node['type'] == 'tree':
         lines = map(lambda child: formatter(child, depth + 1), children)
         result = '\n'.join(lines)
-        return f"{{\n{result}\n}}"
-    if node['type'] == 'nested':
-        lines = map(lambda child: formatter(child, depth + 1), children)
-        result = '\n'.join(lines)
-        return f"{indent}  {node['key']}: {{\n{result}\n  {indent}}}"
+        if 'key' not in node:
+            return f"{{\n{result}\n}}"
+        else:
+            return f"{indent}  {node['key']}: {{\n{result}\n  {indent}}}"
     if node['type'] == 'added':
         return f'{indent}+ {node["key"]}: {value}'
     if node['type'] == 'changed':
@@ -53,3 +52,4 @@ def formatter(node, depth=0):  # noqa: C901
         return f'{indent}- {node["key"]}: {value}'
     if node['type'] == 'unchanged':
         return f'{indent}  {node["key"]}: {value}'
+    return f"{{\n{result}\n}}"

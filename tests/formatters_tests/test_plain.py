@@ -1,21 +1,20 @@
 import pytest
 from gendiff import generate_diff
+from correct_outputs import PLAIN
 
 
-@pytest.mark.parametrize('input1, input2, expected, format', [
+@pytest.mark.parametrize('input1, input2, expected', [
     (
         'tests/fixtures/nested_file1.json',
         'tests/fixtures/nested_file2.json',
-        'tests/fixtures/expected_plain.txt',
-        'plain'
+        PLAIN
     ),
     (
         'tests/fixtures/nested_file1.yaml',
         'tests/fixtures/nested_file2.yaml',
-        'tests/fixtures/expected_plain.txt',
-        'plain'
+        PLAIN
     )
 ])
-def test_plain(input1, input2, expected, format):
-    diff = generate_diff(input1, input2, format)
-    assert print(diff) == print(expected)
+def test_plain(input1, input2, expected):
+    diff = generate_diff(input1, input2, 'plain')
+    assert diff == expected

@@ -29,14 +29,15 @@ def formatter_plain(node, path=''):  # noqa: C901
     cur_path = f'{path}{node.get("key")}'
     if node['type'] not in NODE_TYPES:
         raise ValueError(f"Invalid node type {node['type']}.")
-    if node['type'] == 'root':
-        lines = map(lambda child: formatter_plain(child, path), children)
-        result = '\n'.join(filter(bool, lines))
-        return result
-    if node['type'] == 'nested':
-        lines = map(lambda child: formatter_plain(child, f"{cur_path}."), children)  # noqa: E501
-        result = '\n'.join(filter(bool, lines))
-        return result
+    if node['type'] == 'tree':
+        if 'key' not in node:
+            lines = map(lambda child: formatter_plain(child, path), children)
+            result = '\n'.join(filter(bool, lines))
+            return result
+        else:
+            lines = map(lambda child: formatter_plain(child, f"{cur_path}."), children)  # noqa: E501
+            result = '\n'.join(filter(bool, lines))
+            return result
     if node['type'] == 'added':
         return f"Property '{cur_path}' was added with value: {value}"
     if node['type'] == 'deleted':
