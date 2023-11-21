@@ -35,6 +35,4 @@ def formatter_plain(tree, path=''):
             result.append(f"Property '{curr_path}' was removed")
         elif node_type == 'changed':
             result.append(f"Property '{curr_path}' was updated. From {old_value} to {new_value}")  # noqa: E501
-        else:
-            raise ValueError(f"Invalid node type: {node_type}")
     return '\n'.join(result)
