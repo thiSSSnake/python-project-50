@@ -1,6 +1,3 @@
-from gendiff.formatters.consts import NODE_TYPES
-
-
 def to_string(value):
 
     """
@@ -19,28 +16,25 @@ def to_string(value):
     return f"'{value}'"
 
 
-def formatter_plain(node, path=''):  # noqa: C901
+def formatter_plain(tree, path=''):
     """Return formatted data in Plain output."""
-
-    children = node.get('children')
-    value = to_string(node.get('value'))
-    old_value = to_string(node.get('old_value'))
-    new_value = to_string(node.get('new_value'))
-    cur_path = f'{path}{node.get("key")}'
-    if node['type'] not in NODE_TYPES:
-        raise ValueError(f"Invalid node type {node['type']}.")
-    if node['type'] == 'tree':
-        if 'key' not in node:
-            lines = map(lambda child: formatter_plain(child, path), children)
-            result = '\n'.join(filter(bool, lines))
-            return result
+    result = []
+    for node in tree:
+        node_type = node['type']
+        value = to_string(node.get('value'))
+        old_value = to_string(node.get('old_value'))
+        new_value = to_string(node.get('new_value'))
+        curr_path = f'{path}{node.get("key")}'
+        if node_type == 'tree':
+            children = node["children"]
+            lines = formatter_plain(children, f"{curr_path}.")
+            result.append(lines)
+        elif node_type == 'added':
+            result.append(f"Property '{curr_path}' was added with value: {value}")  # noqa: E501
+        elif node_type == 'deleted':
+            result.append(f"Property '{curr_path}' was removed")
+        elif node_type == 'changed':
+            result.append(f"Property '{curr_path}' was updated. From {old_value} to {new_value}")  # noqa: E501
         else:
-            lines = map(lambda child: formatter_plain(child, f"{cur_path}."), children)  # noqa: E501
-            result = '\n'.join(filter(bool, lines))
-            return result
-    if node['type'] == 'added':
-        return f"Property '{cur_path}' was added with value: {value}"
-    if node['type'] == 'deleted':
-        return f"Property '{cur_path}' was removed"
-    if node['type'] == 'changed':
-        return f"Property '{cur_path}' was updated. From {old_value} to {new_value}"  # noqa: E501
+            raise ValueError(f"Invalid node type: {node_type}")
+    return '\n'.join(result)

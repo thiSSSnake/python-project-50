@@ -1,10 +1,10 @@
-from gendiff.formatters import format_stylish, formatter_plain, format_js
+from gendiff.formatters import formatter, formatter_plain, format_js
 
 
 def formatting(tree: dict, format_name='stylish') -> str:
 
     formats = {
-        'stylish': format_stylish,
+        'stylish': formatter,
         'plain': formatter_plain,
         'json': format_js
     }

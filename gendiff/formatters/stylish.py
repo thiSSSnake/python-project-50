@@ -1,8 +1,5 @@
-from gendiff.formatters.consts import NODE_TYPES
-
-
 def get_indent(depth):
-    return ' ' * (depth * 4 - 2)
+    return ' ' * (depth * 4 + 2)
 
 
 def stringit(value, depth=0):
@@ -25,31 +22,30 @@ def stringit(value, depth=0):
     return value
 
 
-def formatter(node, depth=0):  # noqa: C901
-    """Return formatted data in the library's standart Stylish output."""
-
-    children = node.get('children')
-    indent = get_indent(depth)
-    value = stringit(node.get('value'), depth)
-    old_value = stringit(node.get('old_value'), depth)
-    new_value = stringit(node.get('new_value'), depth)
-    if node['type'] not in NODE_TYPES:
-        raise ValueError(f"Invalid node type {node['type']}")
-    if node['type'] == 'tree':
-        lines = map(lambda child: formatter(child, depth + 1), children)
-        result = '\n'.join(lines)
-        if 'key' not in node:
-            return f"{{\n{result}\n}}"
+def formatter(data, depth=0):  # noqa: C901
+    result = '{\n'
+    indent = '  '
+    for i in range(depth):
+        indent += '    '
+    for node in data:
+        node_type = node['type']
+        key = node['key']
+        value = stringit(node.get('value'), depth)
+        old_value = stringit(node.get('old_value'), depth)
+        new_value = stringit(node.get('new_value'), depth)
+        if node_type == 'tree':
+            children = node['children']
+            result += f"{indent}  {key}: {formatter(children, depth + 1)}\n"
+        elif node_type == 'added':
+            result += f"{indent}+ {key}: {value}\n"
+        elif node_type == 'changed':
+            result += f"{indent}- {key}: {old_value}\n"
+            result += f"{indent}+ {key}: {new_value}\n"
+        elif node_type == 'deleted':
+            result += f"{indent}- {key}: {value}\n"
+        elif node_type == 'unchanged':
+            result += f"{indent}  {key}: {value}\n"
         else:
-            return f"{indent}  {node['key']}: {{\n{result}\n  {indent}}}"
-    if node['type'] == 'added':
-        return f'{indent}+ {node["key"]}: {value}'
-    if node['type'] == 'changed':
-        line1 = f'{indent}- {node["key"]}: {old_value}\n'
-        line2 = f'{indent}+ {node["key"]}: {new_value}'
-        return line1 + line2
-    if node['type'] == 'deleted':
-        return f'{indent}- {node["key"]}: {value}'
-    if node['type'] == 'unchanged':
-        return f'{indent}  {node["key"]}: {value}'
-    return f"{{\n{result}\n}}"
+            raise ValueError(f"Invalid node type: {node_type}")
+    result += indent[:-2] + "}"
+    return result
