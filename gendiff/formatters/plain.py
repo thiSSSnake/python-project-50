@@ -16,7 +16,7 @@ def to_string(value):
     return f"'{value}'"
 
 
-def formatter_plain(tree, path=''):
+def formatter_plain(tree, path=''):  # noqa: C901
     """Return formatted data in Plain output."""
     result = []
     for node in tree:
@@ -35,4 +35,8 @@ def formatter_plain(tree, path=''):
             result.append(f"Property '{curr_path}' was removed")
         elif node_type == 'changed':
             result.append(f"Property '{curr_path}' was updated. From {old_value} to {new_value}")  # noqa: E501
+        elif node_type == 'unchanged':
+            pass
+        else:
+            raise ValueError(f"Invalid node type: {node_type}")
     return '\n'.join(result)

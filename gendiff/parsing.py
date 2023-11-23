@@ -1,18 +1,28 @@
 import json
 import yaml
+import os
 
 
-def open_file(file_path: str):
-    with open(file_path, 'r') as file:
-        return parse_files(file_path, file)
+def get_extension(file_name):
+    '''Get extension of file(.json or .yaml/.yml)'''
+    return os.path.splitext(file_name)[1]
 
 
-def parse_files(path, file):
-    """Getting a parsed JSON or YAML file."""
+def get_content(file_name):
+    '''Get content from file.'''
+    extension = get_extension(file_name)
+    with open(file_name) as file:
+        data = file.read()
+    return parse_files(data, extension)
 
-    if path.endswith('.yaml') or path.endswith('.yml'):
-        return yaml.safe_load(file)
-    if path.endswith('.json'):
-        return json.load(file)
 
-    raise ValueError(f"Unsupported file extension: {file}")
+def parse_files(file_data, file_format):
+    """Getting a parsed JSON or YAML file.
+    First arg -- content from file
+    Second arg -- .extension of file"""
+    if file_format in ('.yml', '.yaml'):
+        return yaml.load(file_data, Loader=yaml.SafeLoader)
+    elif file_format == '.json':
+        return json.loads(file_data)
+
+    raise ValueError(f"Unsupported file extension: {file_format}.")
